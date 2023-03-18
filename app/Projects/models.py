@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 
-from config.mixins import ObjMixin
+from utils.mixins import ObjMixin
 
 from Workspaces.models import Workspace
 
@@ -16,7 +16,8 @@ class ProjectColumn(ObjMixin):
 	class Meta:
 		verbose_name_plural = 'Project columns'
 		verbose_name = 'Project column'
-		ordering = ['created_at']
+		ordering = ('created_at',)
+
 
 
 class Project(ObjMixin):
@@ -35,4 +36,4 @@ class Project(ObjMixin):
 	class Meta:
 		verbose_name_plural = 'Projects'
 		verbose_name = 'Project'
-		ordering = ['created_at']
+		ordering = ('created_at',)

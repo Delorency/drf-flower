@@ -39,4 +39,4 @@ class User(AbstractBaseUser, PermissionsMixin):
 		unique_together = ('username', 'is_active')
 		verbose_name_plural = 'Users'
 		verbose_name = 'User'
-		ordering = ['-created_at']
+		ordering = ('-created_at',)

@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 
-from config.mixins import ObjMixin
+from utils.mixins import ObjMixin
 
 
 
@@ -21,7 +21,7 @@ class CheckList_item(ObjMixin):
 	class Meta:
 		verbose_name_plural = 'CheckList_items'
 		verbose_name = 'CheckList_item'
-		ordering = ['updated_at']
+		ordering = ('updated_at',)
 
 
 class TaskCard(ObjMixin):
@@ -41,4 +41,4 @@ class TaskCard(ObjMixin):
 	class Meta:
 		verbose_name_plural = 'TaskCards'
 		verbose_name = 'TaskCard'
-		ordering = ['created_at']
+		ordering = ('created_at',)

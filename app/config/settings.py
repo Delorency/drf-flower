@@ -42,7 +42,9 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'djoser',
     'django_resized',
+    'django_filters',
 
+    'utils',
     'Users',
     'Workspaces',
     'Projects',
@@ -140,8 +142,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #rest_framework
 REST_FRAMEWORK = {
    'DEFAULT_AUTHENTICATION_CLASSES': (
-       'rest_framework.authentication.TokenAuthentication',
-   ),
+    'rest_framework.authentication.TokenAuthentication',
+    ),
+
+   'DEFAULT_FILTER_BACKENDS': (
+    'django_filters.rest_framework.DjangoFilterBackend',
+    ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 20
 }
 
 

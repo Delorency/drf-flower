@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 
-from config.mixins import ObjMixin
+from utils.mixins import ObjMixin
 
 
 
@@ -20,5 +20,5 @@ class Workspace(ObjMixin):
 	class Meta:
 		verbose_name_plural = 'Workspaces'
 		verbose_name = 'Workspace'
-		ordering = ['created_at']
+		ordering = ('created_at',)
 	
