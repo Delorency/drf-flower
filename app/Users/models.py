@@ -12,8 +12,6 @@ class User(AbstractBaseUser, PermissionsMixin):
 		unique=True, verbose_name='Email')
 
 	username = models.CharField(max_length=100, verbose_name='Username')
-	field_for_unique = models.BooleanField(default=True,
-		verbose_name="Field for unique")
 
 	last_name = models.CharField(max_length=100, verbose_name='Last name')
 	first_name = models.CharField(max_length=100, verbose_name='First name')
@@ -35,7 +33,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 	class Meta:
-		unique_together = ('username', 'field_for_unique')
+		unique_together = ('username', 'is_active')
 		verbose_name_plural = 'Users'
 		verbose_name = 'User'
 		ordering = ['-created_at']
