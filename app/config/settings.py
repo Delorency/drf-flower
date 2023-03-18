@@ -43,7 +43,10 @@ INSTALLED_APPS = [
     'djoser',
     'django_resized',
 
-    'Users'
+    'Users',
+    'Workspaces',
+    'Projects',
+    'Tasks'
 
 
 ]
