@@ -139,7 +139,7 @@ STATIC_ROOT = BASE_DIR / 'static'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-#rest_framework
+#Rest framework
 REST_FRAMEWORK = {
    'DEFAULT_AUTHENTICATION_CLASSES': (
     'rest_framework.authentication.TokenAuthentication',
@@ -152,6 +152,13 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 20
 }
 
+
+#Djoser
+DJOSER = {
+    'SERIALIZERS': {
+        'user': 'Users.serializers.UserSerializer'
+    }
+}
 
 #django_resized
 DJANGORESIZED_DEFAULT_SIZE = [1920, 1080]
