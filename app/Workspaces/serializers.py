@@ -1,29 +1,28 @@
-from rest_framework import serializers
-from djoser.serializers import UserSerializer as djoser_UserSerializer
-
+from utils.helpers import CreatorForListSerializerHelper, \
+CreatorForCreateSerializerHelper, \
+CreatorForChangeSerializerHelper
 from Users.serializers import UserSerializer
-
-from utils.helpers import CreatorSerializerHelper
 from .models import *
 
 
 
-class WorkspaceSerializer(serializers.ModelSerializer):
-
-	creator = UserSerializer()
+class WorkspaceSerializer(CreatorForListSerializerHelper):
 
 	class Meta:
 		model = Workspace
 		fields = ('id', 'name', 'creator', 'is_private', 'created_at')
 
-	class CreateSerializer(CreatorSerializerHelper):
+	class CreateSerializer(CreatorForCreateSerializerHelper):
+		
+		def validate(self, attrs):
+			attrs['creator'] = self.context['request'].user
+			return super().create(attrs)
 
 		class Meta:
 			model = Workspace
 			fields = '__all__'
 	
-	class RetrieveUpdateDestroySerializer(serializers.ModelSerializer):
-		creator = djoser_UserSerializer(read_only=True)
+	class RetrieveUpdateDestroySerializer(CreatorForChangeSerializerHelper):
 
 		class Meta:
 			model = Workspace

@@ -34,6 +34,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 		return f'id:{self.id} | first_name:{self.first_name} | \
 		email:{self.email}'
 
+	def get_user_project(self, project):
+		return self.user_projects.get(id=project)
+
 
 	class Meta:
 		unique_together = ('username', 'is_active')

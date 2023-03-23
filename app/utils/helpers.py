@@ -1,12 +1,17 @@
 from rest_framework import serializers
+from djoser.serializers import UserSerializer as djoser_UserSerializer
+
 from Users.serializers import UserSerializer
 
 
 
-class CreatorSerializerHelper(serializers.ModelSerializer):
+class CreatorForListSerializerHelper(serializers.ModelSerializer):
+	creator = UserSerializer()
 
-	creator = UserSerializer(read_only=True)
 
-	def create(self, validated_data):
-		validated_data['creator'] = self.context['request'].user
-		return super().create(validated_data)
+class CreatorForCreateSerializerHelper(serializers.ModelSerializer):
+	creator = djoser_UserSerializer(read_only=True)
+
+
+class CreatorForChangeSerializerHelper(serializers.ModelSerializer):
+	creator = djoser_UserSerializer(read_only=True)
