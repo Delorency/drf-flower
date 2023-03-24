@@ -1,7 +1,7 @@
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.generics import ListCreateAPIView,\
-RetrieveUpdateDestroyAPIView, ListAPIView,CreateAPIView, \
-UpdateAPIView, DestroyAPIView
+from rest_framework.generics import ListCreateAPIView, \
+RetrieveUpdateDestroyAPIView, ListAPIView, CreateAPIView, UpdateAPIView, \
+DestroyAPIView
 
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -24,16 +24,20 @@ class ProjectListCreateAPIView(ListCreateAPIView):
 
 
 class ProjectRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
-	permission_classes = (ChangeObjectPermission,)
-	queryset = Project.objects.all()
+	permission_classes = (IsAuthenticated, ChangeObjectPermission)
 	serializer_class = ProjectSerializer.RetrieveUpdateDestroySerializer
+	queryset = Project.objects.all()
 	lookup_field = 'id'
+
+	def get(self, request, id):
+		self.serializer_class = ProjectSerializer
+		return super().get(request)
 
 
 class ProjectMyListAPIView(ListAPIView):
 	permission_classes = (IsAuthenticated,)
+	serializer_class = ProjectSerializer.MyListSerializer
 	queryset = Project.objects.all()
-	serializer_class = ProjectSerializer.RetrieveUpdateDestroySerializer
 
 	def get(self, request):
 		self.queryset = self.queryset.filter(creator=request.user)
@@ -42,12 +46,12 @@ class ProjectMyListAPIView(ListAPIView):
 
 class ProjectColumnCreateAPIView(CreateAPIView):
 	permission_classes = (IsAuthenticated,)
-	queryset = ProjectColumn.objects.all()
 	serializer_class = ProjectColumnSerializer.CreateSerializer
+	queryset = ProjectColumn.objects.all()
 
 
 class ProjectColumnUpdateDestroyAPIView(UpdateAPIView, DestroyAPIView):
-	permission_classes = (ChangeObjectPermission,)
-	queryset = ProjectColumn.objects.all()
+	permission_classes = (IsAuthenticated, ChangeObjectPermission)
 	serializer_class = ProjectColumnSerializer.UpdateDestroySerializer
+	queryset = ProjectColumn.objects.all()
 	lookup_field = 'id'

@@ -29,7 +29,7 @@ class CheckList_item(ObjMixin):
 
 class TaskCard(ObjMixin):
 
-	description = models.CharField(max_length=1000,
+	description = models.CharField(max_length=1000, null=True, blank=True,
 		verbose_name='Description')
 
 	creator = models.ForeignKey(get_user_model(), on_delete=models.CASCADE,

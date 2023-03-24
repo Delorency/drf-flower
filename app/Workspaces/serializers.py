@@ -1,7 +1,6 @@
 from utils.helpers import CreatorForListSerializerHelper, \
 CreatorForCreateSerializerHelper, \
 CreatorForChangeSerializerHelper
-from Users.serializers import UserSerializer
 from .models import *
 
 
@@ -10,7 +9,7 @@ class WorkspaceSerializer(CreatorForListSerializerHelper):
 
 	class Meta:
 		model = Workspace
-		fields = ('id', 'name', 'creator', 'is_private', 'created_at')
+		fields = '__all__'
 
 	class CreateSerializer(CreatorForCreateSerializerHelper):
 		

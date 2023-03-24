@@ -12,8 +12,8 @@ from .serializers import WorkspaceSerializer
 
 class WorkspaceListCreateAPIView(ListCreateAPIView):
     permission_classes = (IsAuthenticated,)
-    queryset = Workspace.objects.filter(is_private=False)
     serializer_class = WorkspaceSerializer
+    queryset = Workspace.objects.filter(is_private=False)
     filter_backends = (DjangoFilterBackend,)
     filterset_fields = ('creator',)
 
@@ -23,16 +23,16 @@ class WorkspaceListCreateAPIView(ListCreateAPIView):
 
 
 class WorkspaceRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
-    permission_classes = (ChangeObjectPermission,)
-    queryset = Workspace.objects.all()
+    permission_classes = (IsAuthenticated, ChangeObjectPermission)
     serializer_class = WorkspaceSerializer.RetrieveUpdateDestroySerializer
+    queryset = Workspace.objects.all()
     lookup_field = 'id'
 
 
 class WorkspaceMyListAPIView(ListAPIView):
     permission_classes = (IsAuthenticated,)
-    queryset = Workspace.objects.all()
     serializer_class = WorkspaceSerializer.RetrieveUpdateDestroySerializer
+    queryset = Workspace.objects.all()
 
     def get(self, request):
         self.queryset = self.queryset.filter(creator=request.user)

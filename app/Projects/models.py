@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 from utils.mixins import ObjMixin
 
 from Workspaces.models import Workspace
+from Tasks.models import TaskCard
 
 
 
@@ -12,8 +13,6 @@ class ProjectColumn(ObjMixin):
 
 	creator = models.ForeignKey(get_user_model(), on_delete=models.CASCADE,
 		related_name='user_projectcolumns', verbose_name='Creator')	
-	# project = models.ForeignKey('Project', on_delete=models.CASCADE,
-	# 	related_name='project_projectcolumn', verbose_name='Project')
 
 	def __str__(self):
 		return f'id: {self.id} | creator: {self.creator}'
@@ -27,6 +26,8 @@ class ProjectColumn(ObjMixin):
 
 
 class Project(ObjMixin):
+	date = models.DateTimeField(null=True, blank=True, verbose_name='Date')
+
 	creator = models.ForeignKey(get_user_model(), on_delete=models.CASCADE,
 		related_name='user_projects', verbose_name='Creator')
 	workspace = models.ForeignKey(Workspace, on_delete=models.CASCADE,
@@ -35,6 +36,9 @@ class Project(ObjMixin):
 	columns = models.ManyToManyField(ProjectColumn,
 		related_name='projectcolumn_projects', blank=True, 
 		verbose_name='Columns')
+
+	tasks = models.ManyToManyField(TaskCard, related_name="taskcard_projects",
+		blank=True, verbose_name='Tasks')
 
 	is_private = models.BooleanField(default=False, verbose_name='Is private')
 
