@@ -15,7 +15,7 @@ class ProjectSerializer(CreatorForListSerializerHelper):
 
 	class Meta:
 		model = Project
-		fields = ('id', 'name', 'creator', 'is_private',
+		fields = ('id', 'name', 'creator', 'is_private', 'columns',
 			'created_at')
 
 	class CreateSerializer(CreatorForCreateSerializerHelper):
