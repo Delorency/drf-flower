@@ -35,7 +35,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 		email:{self.email}'
 
 	def get_user_project(self, project):
-		return self.user_projects.get(id=project)
+		return self.user_project_creators.get(id=project)
 
 
 	class Meta:

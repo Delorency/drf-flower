@@ -3,5 +3,5 @@ from .models import *
 
 
 
-admin.site.register(ProjectColumn)
 admin.site.register(Project)
+admin.site.register(Proposal)

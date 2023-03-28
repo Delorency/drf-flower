@@ -15,7 +15,7 @@ class WorkspaceSerializer(CreatorForListSerializerHelper):
 		
 		def validate(self, attrs):
 			attrs['creator'] = self.context['request'].user
-			return super().create(attrs)
+			return super().validate(attrs)
 
 		class Meta:
 			model = Workspace

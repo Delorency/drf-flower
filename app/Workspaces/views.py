@@ -22,11 +22,13 @@ class WorkspaceListCreateAPIView(ListCreateAPIView):
         return super().post(*args, **kwargs)
 
 
+
 class WorkspaceRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
     permission_classes = (IsAuthenticated, ChangeObjectPermission)
     serializer_class = WorkspaceSerializer.RetrieveUpdateDestroySerializer
     queryset = Workspace.objects.all()
     lookup_field = 'id'
+
 
 
 class WorkspaceMyListAPIView(ListAPIView):

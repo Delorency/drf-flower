@@ -3,5 +3,6 @@ from .models import *
 
 
 
-admin.site.register(CheckList_item)
+# admin.site.register(CheckList_item)
 admin.site.register(TaskCard)
+admin.site.register(ProjectColumn)

@@ -1,4 +1,4 @@
-from .models import TaskCard
+from .models import *
 
 
 def create_new_taskcard(data):
@@ -8,3 +8,12 @@ def create_new_taskcard(data):
 	project.save()
 
 	return taskcard
+
+
+def create_new_column(data):
+	project = data.pop('project')
+	column = ProjectColumn.objects.create(**data)
+	project.columns.add(column)
+	project.save()
+
+	return column
