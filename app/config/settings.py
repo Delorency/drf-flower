@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-xf3@yeb7fh0)skj-as7ql1fd$x&8+)tb3hb#y@24ll%_-v1+3x
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     
     'rest_framework',
     'rest_framework.authtoken',
+    'corsheaders',
     'djoser',
     'django_resized',
     'django_filters',
@@ -56,6 +57,9 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+
+    'corsheaders.middleware.CorsMiddleware',
+
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -160,6 +164,7 @@ DJOSER = {
     }
 }
 
+
 #django_resized
 DJANGORESIZED_DEFAULT_SIZE = [1920, 1080]
 DJANGORESIZED_DEFAULT_KEEP_META = True
@@ -169,3 +174,7 @@ DJANGORESIZED_DEFAULT_FORMAT_EXTENSIONS = {
             'PNG': '.png',
             'SVG': '.svg'}
 DJANGORESIZED_DEFAULT_NORMALIZE_ROTATION = True
+
+
+#CORS
+CORS_ALLOW_ALL_ORIGINS = True

@@ -6,20 +6,20 @@ from utils.helpers import CreatorForListSerializerHelper, \
 CreatorForCreateSerializerHelper, \
 CreatorForChangeSerializerHelper
 from djoser.serializers import UserSerializer
-from Tasks.serializers import TaskCardSerializer, ProjectColumnSerializer
+from Users.serializers import UserSerializer as MyUserSerializer
+from Tasks.serializers import TaskCardSerializer
 from Workspaces.serializers import WorkspaceSerializer
 from .models import *
 
 
 
 class ProjectSerializer(CreatorForListSerializerHelper):
-	columns = ProjectColumnSerializer(many=True)
 	tasks = TaskCardSerializer(many=True)
 	workspace = WorkspaceSerializer()
 
 	class Meta:
 		model = Project
-		fields = ('id', 'name', 'creator', 'columns', 'tasks', 'workspace', 
+		fields = ('id', 'name', 'creator', 'tasks', 'workspace', 
 			'is_private', 'created_at', 'updated_at')
 
 	class CreateSerializer(CreatorForCreateSerializerHelper):
@@ -43,8 +43,8 @@ class ProjectSerializer(CreatorForListSerializerHelper):
 				'updated_at')
 
 	class MyListSerializer(CreatorForChangeSerializerHelper):
-		columns = ProjectColumnSerializer(many=True)
 		tasks = TaskCardSerializer(many=True)
+		workers = MyUserSerializer(many=True)
 		workspace = WorkspaceSerializer()
 		
 		class Meta:

@@ -11,43 +11,6 @@ from .models import *
 
 
 
-class ProjectColumnSerializer(CreatorForListSerializerHelper):
-
-	class Meta:
-		model = ProjectColumn
-		fields = '__all__'
-
-	class CreateSerializer(CreatorForCreateSerializerHelper):
-		project = IntegerField(write_only=True)
-
-		def validate(self, attrs):
-			try:
-				attrs['creator'] = self.context['request'].user
-				attrs['project'] = attrs['creator'].get_user_project(
-					attrs['project'])
-				return super().validate(attrs) 
-			except:
-				raise PermissionDenied()
-
-		def create(self, validated_data):
-			try:
-				with transaction.atomic():
-					return create_new_column(validated_data)
-			except:
-				raise NotFound()
-
-		class Meta:
-			model = ProjectColumn
-			fields = ('id', 'name', 'number', 'creator', 'project')
-
-	class UpdateDestroySerializer(CreatorForChangeSerializerHelper):
-
-		class Meta:
-			model = ProjectColumn
-			fields = ('id', 'name', 'number', 'creator')
-
-
-
 class TaskCardSerializer(CreatorForListSerializerHelper):
 
 	class Meta:
@@ -62,8 +25,6 @@ class TaskCardSerializer(CreatorForListSerializerHelper):
 				attrs['creator'] = self.context['request'].user
 				attrs['project'] = attrs['creator'].get_user_project(
 					attrs['project'])
-				if not attrs['column'] in attrs['project'].columns.all():
-					raise
 				return super().validate(attrs) 
 			except:
 				raise PermissionDenied()
@@ -89,10 +50,6 @@ class TaskCardSerializer(CreatorForListSerializerHelper):
 					if not validated_data['worker'] in \
 						instance.taskcard_projects.all().first().workers.all():
 						validated_data.pop('worker')
-				if 'column' in validated_data:
-					if not validated_data['column'] in \
-					instance.taskcard_projects.all().first().columns.all():
-						validated_data.pop('column')
 
 				return super().update(instance, validated_data)
 			except:

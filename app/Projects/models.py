@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from utils.mixins import ObjMixin
 
 from Workspaces.models import Workspace
-from Tasks.models import TaskCard, ProjectColumn
+from Tasks.models import TaskCard
 
 
 
@@ -19,9 +19,6 @@ class Project(ObjMixin):
 	workers = models.ManyToManyField(get_user_model(),
 		related_name='user_project_workers', blank=True, 
 		verbose_name='Workers')
-	columns = models.ManyToManyField(ProjectColumn,
-		related_name='projectcolumn_projects', blank=True, 
-		verbose_name='Columns')
 	tasks = models.ManyToManyField(TaskCard, related_name="taskcard_projects",
 		blank=True, verbose_name='Tasks')
 

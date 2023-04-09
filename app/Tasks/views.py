@@ -11,21 +11,6 @@ from .serializers import *
 
 
 
-class ProjectColumnCreateAPIView(CreateAPIView):
-	permission_classes = (IsAuthenticated,)
-	serializer_class = ProjectColumnSerializer.CreateSerializer
-	queryset = ProjectColumn.objects.all()
-
-
-
-class ProjectColumnUpdateDestroyAPIView(UpdateAPIView, DestroyAPIView):
-	permission_classes = (IsAuthenticated, ChangeObjectPermission)
-	serializer_class = ProjectColumnSerializer.UpdateDestroySerializer
-	queryset = ProjectColumn.objects.all()
-	lookup_field = 'id'
-
-
-
 class TaskCardCreateAPIView(CreateAPIView):
 	permission_classes = (IsAuthenticated,)
 	serializer_class = TaskCardSerializer.CreateSerializer
