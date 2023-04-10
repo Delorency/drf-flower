@@ -23,5 +23,5 @@ class Workspace(ObjMixin):
 	class Meta:
 		verbose_name_plural = 'Workspaces'
 		verbose_name = 'Workspace'
-		ordering = ('created_at',)
+		ordering = ('-created_at',)
 	
