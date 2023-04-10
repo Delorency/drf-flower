@@ -47,7 +47,7 @@ class TaskCard(ObjMixin):
 	creator = models.ForeignKey(get_user_model(), on_delete=models.CASCADE,
 		related_name='user_taskcard_creators', verbose_name='Creator')
 
-	date = models.DateTimeField(null=True, blank=True, verbose_name='Date')
+	date = models.DateField(null=True, blank=True, verbose_name='Date')
 
 
 	def __str__(self):

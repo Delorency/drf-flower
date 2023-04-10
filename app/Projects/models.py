@@ -9,7 +9,7 @@ from Tasks.models import TaskCard
 
 
 class Project(ObjMixin):
-	date = models.DateTimeField(null=True, blank=True, verbose_name='Date')
+	date = models.DateField(null=True, blank=True, verbose_name='Date')
 
 	creator = models.ForeignKey(get_user_model(), on_delete=models.CASCADE,
 		related_name='user_project_creators', verbose_name='Creator')
@@ -37,7 +37,7 @@ class Project(ObjMixin):
 	class Meta:
 		verbose_name_plural = 'Projects'
 		verbose_name = 'Project'
-		ordering = ('created_at',)
+		ordering = ('-created_at',)
 
 
 
@@ -64,4 +64,4 @@ class Proposal(models.Model):
 	class Meta:
 		verbose_name_plural = 'Proposals'
 		verbose_name = 'Proposal'
-		ordering = ('created_at',)
+		ordering = ('-created_at',)

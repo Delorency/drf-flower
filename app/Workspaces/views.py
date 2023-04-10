@@ -34,7 +34,7 @@ class WorkspaceRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
 
 class ProjectByWorkspace(ListAPIView):
     permission_classes = (IsAuthenticated, ChangeObjectPermission)
-    serializer_class = ProjectSerializer
+    serializer_class = ProjectSerializer.MyListSerializer
     queryset = Workspace.objects.all()
     lookup_field = 'id'
 
