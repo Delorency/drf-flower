@@ -27,7 +27,7 @@ from utils.mixins import ObjMixin
 class TaskCard(ObjMixin):
 
 	COLUMNS = [
-		("ToDO", "To do"),
+		("ToDo", "To do"),
 		("InProgress", "In progress"),
 		("ToReview", "To review"),
 		("Done", "Done")
@@ -36,7 +36,7 @@ class TaskCard(ObjMixin):
 	column = models.CharField(
 		max_length=10,
 		choices=COLUMNS,
-		default='To do',
+		default='ToDo',
 	)
 
 	description = models.CharField(max_length=1000, null=True, blank=True,
@@ -57,4 +57,4 @@ class TaskCard(ObjMixin):
 	class Meta:
 		verbose_name_plural = 'TaskCards'
 		verbose_name = 'TaskCard'
-		ordering = ('created_at',)
+		ordering = ('-created_at',)
