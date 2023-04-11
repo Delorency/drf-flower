@@ -7,6 +7,8 @@ urlpatterns = [
     path('', views.ProjectListCreateAPIView.as_view()),
     path('<int:id>/', views.ProjectRetrieveUpdateDestroyAPIView.as_view()),
     path('my/', views.ProjectMyListAPIView.as_view()),
+    path('worker/', views.ProjectWorkerListAPIView.as_view()),
+    path('all/', views.ProjectAllListAPIView.as_view()),
 
 
     path('proposal/', views.ProposalCreateAPIView.as_view()),

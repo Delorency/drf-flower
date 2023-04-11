@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.db import transaction
 from rest_framework import status
 from rest_framework.response import Response
@@ -48,6 +49,30 @@ class ProjectMyListAPIView(ListAPIView):
 
 	def get(self, request):
 		self.queryset = self.queryset.filter(creator=request.user)
+		return super().get(request)
+
+
+
+class ProjectWorkerListAPIView(ListAPIView):
+	permission_classes = (IsAuthenticated,)
+	serializer_class = ProjectSerializer.MyListSerializer
+	queryset = Project.objects.all()
+
+	def get(self, request):
+		self.queryset = self.queryset.filter(
+			workers=request.user.id
+		)
+		return super().get(request)
+
+
+class ProjectAllListAPIView(ListAPIView):
+	permission_classes = (IsAuthenticated,)
+	serializer_class = ProjectSerializer.MyListSerializer
+	queryset = Project.objects.all()
+
+	def get(self, request):
+		self.queryset = self.queryset.filter(
+			Q(workers=request.user.id) | Q(creator=request.user))
 		return super().get(request)
 
 

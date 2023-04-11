@@ -1,3 +1,5 @@
+from rest_framework import status
+from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.generics import ListCreateAPIView,\
 RetrieveUpdateDestroyAPIView, ListAPIView, RetrieveAPIView
@@ -39,7 +41,10 @@ class ProjectByWorkspace(ListAPIView):
     lookup_field = 'id'
 
     def get(self, request, id):
-        self.queryset = self.queryset.get(id=id).workspace_projects.all()
+        workspace = self.queryset.get(id=id)
+        if workspace.creator == request.user or not workspace.is_private:
+            self.queryset = self.queryset.get(id=id).workspace_projects.all()
+        else: return Response(status=status.HTTP_403_FORBIDDEN)
         return super().get(request, id)
 
 
