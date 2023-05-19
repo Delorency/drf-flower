@@ -5,7 +5,8 @@ from . import views
 
 urlpatterns = [
     path('', views.ProjectListCreateAPIView.as_view()),
-    path('<int:id>/', views.ProjectRetrieveUpdateDestroyAPIView.as_view()),
+    path('<int:id>/', views.ProjectUpdateDestroyAPIView.as_view()),
+    path('get-<int:id>/', views.ProjectRetrieveAPIView.as_view()),
     path('my/', views.ProjectMyListAPIView.as_view()),
     path('worker/', views.ProjectWorkerListAPIView.as_view()),
     path('all/', views.ProjectAllListAPIView.as_view()),

@@ -7,11 +7,12 @@ from rest_framework.exceptions import NotFound
 from rest_framework.views import APIView
 from rest_framework.generics import ListCreateAPIView, \
 RetrieveUpdateDestroyAPIView, ListAPIView, CreateAPIView, UpdateAPIView, \
-DestroyAPIView
+DestroyAPIView, RetrieveAPIView
 
 from django_filters.rest_framework import DjangoFilterBackend
 
-from utils.custom_permissions import ChangeObjectPermission
+from utils.custom_permissions import ChangeObjectPermission, \
+GetProjectPermission
 from .models import *
 from .serializers import *
 
@@ -30,15 +31,19 @@ class ProjectListCreateAPIView(ListCreateAPIView):
 
 
 
-class ProjectRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
+class ProjectRetrieveAPIView(RetrieveAPIView):
+	permission_classes = (IsAuthenticated, GetProjectPermission)
+	serializer_class = ProjectSerializer
+	queryset = Project.objects.all()
+	lookup_field = 'id'
+
+
+
+class ProjectUpdateDestroyAPIView(UpdateAPIView, DestroyAPIView):
 	permission_classes = (IsAuthenticated, ChangeObjectPermission)
 	serializer_class = ProjectSerializer.RetrieveUpdateDestroySerializer
 	queryset = Project.objects.all()
 	lookup_field = 'id'
-
-	def get(self, request, id):
-		self.serializer_class = ProjectSerializer
-		return super().get(request)
 
 
 
