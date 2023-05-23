@@ -3,6 +3,8 @@ from django.core import validators
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 
+from utils.mixins import ObjMixin
+
 from .managers import UserManager
 
 
