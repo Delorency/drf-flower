@@ -22,7 +22,6 @@ urlpatterns = [
     path('', include('djoser.urls')),
     path('', include('djoser.urls.authtoken')),
     
-    path('workspace/', include('Workspaces.urls')),
-    path('project/', include('Projects.urls')),
-    path('task/', include('Tasks.urls'))
+    path('scrumproject/', include('ScrumProjects.urls')),
+    path('member/', include('Members.urls'))
 ]

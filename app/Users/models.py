@@ -36,8 +36,10 @@ class User(AbstractBaseUser, PermissionsMixin):
 		return f'id:{self.id} | first_name:{self.first_name} | \
 		email:{self.email}'
 
-	def get_user_project(self, project):
-		return self.user_project_creators.get(id=project)
+	def get_user_project(self, project, scrum):
+		if scrum:
+			return self.user_scrumproject_creators.get(id=project)
+		return self.user_kanbanproject_creators.get(id=project)
 
 
 	class Meta:
