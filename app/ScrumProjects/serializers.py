@@ -7,6 +7,7 @@ from djoser.serializers import UserSerializer as dj_UserSerializer
 
 from Users.serializers import UserSerializer
 from Members.serializers import MemberSerializer
+from .utils import create_new_project
 
 from .models import *
 
@@ -22,12 +23,8 @@ class ScrumProjectSerializer(serializers.ModelSerializer):
 
 
 	class CreateSerializer(serializers.ModelSerializer):
-		creator = dj_UserSerializer(read_only=True)
+		is_scrum = serializers.BooleanField(read_only=True)
 		team = MemberSerializer(read_only=True, many=True)
-
-		def validate(self, attrs):
-			attrs['creator'] = self.context['request'].user
-			return super().validate(attrs) 
 
 		def create(self, validated_data):
 			try:
@@ -41,12 +38,8 @@ class ScrumProjectSerializer(serializers.ModelSerializer):
 			fields = '__all__'
 
 
-	class RetrieveUpdateDestroySerializer(serializers.ModelSerializer):
-		creator = dj_UserSerializer(read_only=True)
-
-		def update(self, instance, validated_data):
-			pass
+	class ChangeSerializer(serializers.ModelSerializer):
 
 		class Meta:
 			model = ScrumProject 
-			fields = '__all__'
+			fields = ('id', 'name', 'description', 'is_private')

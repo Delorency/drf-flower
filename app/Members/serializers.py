@@ -7,7 +7,7 @@ from .models import Member
 
 
 class MemberSerializer(serializers.ModelSerializer):
-	creator = UserSerializer()
+	user = UserSerializer()
 
 	class Meta:
 		model = Member

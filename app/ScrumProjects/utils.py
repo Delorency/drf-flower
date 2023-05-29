@@ -1,14 +1,15 @@
 from Members.models import Member
 
-from .models import Project
+from .models import ScrumProject
 
 
 def create_new_project(validated_data):
 	member = Member.objects.create(
-		role=Member.COLUMNS[-1],
+		role=Member.COLUMNS[-1][-1],
 		user=validated_data.get('creator')
 	)
-	validated_data['team'] = [member]
-	project = Project.objects.create(**validated_data)
+	project = ScrumProject.objects.create(**validated_data)
+	project.team.add(member)
+	project.save()
 
 	return project

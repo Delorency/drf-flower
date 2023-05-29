@@ -10,7 +10,7 @@ class Member(models.Model):
 		("Design", "Design"),
 		("Stakeholder", "Stakeholder"),
 		("UX", "UX"),
-		("Product owner", "Product owner")
+		("Project owner", "Project owner")
 	]
 	role = models.CharField(
 		max_length=20,
