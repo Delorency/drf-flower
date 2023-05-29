@@ -16,7 +16,6 @@ def create_new_project(validated_data):
 	return project
 
 
-
 def delete_project(instance):
 	for i in instance.team.all():
 		i.delete()
