@@ -3,7 +3,9 @@ from rest_framework.permissions import IsAuthenticated
 
 from utils.permissions import CreatorFieldHelperPermission, \
 ProjectUpdatePermission
+from utils.decorators import transaction_handler
 
+from .utils import delete_project
 from .models import *
 from .serializers import *
 
@@ -26,3 +28,6 @@ class ScrumProjectRetrieveUpdateDestroyAPIView(
 	serializer_class = ScrumProjectSerializer.ChangeSerializer
 	queryset = ScrumProject.objects.all()
 	lookup_field = 'id'
+
+	def perform_destroy(self, instance):
+		transaction_handler(delete_project, instance)
