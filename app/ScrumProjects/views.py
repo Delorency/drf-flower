@@ -29,5 +29,9 @@ class ScrumProjectRetrieveUpdateDestroyAPIView(
 	queryset = ScrumProject.objects.all()
 	lookup_field = 'id'
 
+	def get(self, *args, **kwargs):
+		self.serializer_class = ScrumProjectSerializer
+		return super().get(*args, **kwargs)
+
 	def perform_destroy(self, instance):
 		transaction_handler(delete_project, instance)

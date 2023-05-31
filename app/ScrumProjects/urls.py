@@ -1,11 +1,10 @@
 from django.urls import path
 
-from . import views
+from .views import *
 
 
 
 urlpatterns = [
-    path('', views.ScrumProjectListCreateAPIView.as_view()),
-    path('<int:id>/', 
-        views.ScrumProjectRetrieveUpdateDestroyAPIView.as_view()),
+    path('', ScrumProjectListCreateAPIView.as_view()),
+    path('<int:id>/', ScrumProjectRetrieveUpdateDestroyAPIView.as_view()),
 ]

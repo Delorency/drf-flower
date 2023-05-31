@@ -32,15 +32,10 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 	objects = UserManager()
 
+
 	def __str__(self):
 		return f'id:{self.id} | first_name:{self.first_name} | \
 		email:{self.email}'
-
-	def get_user_project(self, project, scrum):
-		if scrum:
-			return self.user_scrumproject_creators.get(id=project)
-		return self.user_kanbanproject_creators.get(id=project)
-
 
 	class Meta:
 		unique_together = ('username', 'is_active')

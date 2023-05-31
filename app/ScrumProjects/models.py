@@ -17,7 +17,6 @@ class ScrumProject(ObjMixin):
 		blank=True, verbose_name='Team')
 
 	is_private = models.BooleanField(default=False, verbose_name='Is private')
-	is_scrum = models.BooleanField(default=True, verbose_name='Is scrum')
 
 
 	def __str__(self):

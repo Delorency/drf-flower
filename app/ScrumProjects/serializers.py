@@ -22,7 +22,6 @@ class ScrumProjectSerializer(serializers.ModelSerializer):
 
 
 	class CreateSerializer(serializers.ModelSerializer):
-		is_scrum = serializers.BooleanField(read_only=True)
 		team = MemberSerializer(read_only=True, many=True)
 
 		def create(self, validated_data):

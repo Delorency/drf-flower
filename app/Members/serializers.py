@@ -1,8 +1,11 @@
 from rest_framework import serializers
 
 from Users.serializers import UserSerializer
+from utils.decorators import transaction_handler
 
 from .models import Member
+from .utils import get_user_project, check_user_in_project, \
+add_member, check_member_change_rool
 
 
 
@@ -19,22 +22,32 @@ class MemberSerializer(serializers.ModelSerializer):
 		scrum = serializers.BooleanField(default=True) 
 
 		def validate(self, attrs):
-			try:
-				attrs['project'] = \
-				self.context['request'].user.get_user_project(attrs['project'],
-					scrum)
-				return super().validate(attrs) 
-			except:
-				raise PermissionDenied()
+			attrs['project'] = transaction_handler(get_user_project,
+				{'project': attrs['project'],
+				'scrum': attrs['scrum'],
+				'user': self.context['request'].user.id}
+			)
+			transaction_handler(check_user_in_project, 
+				{'project':attrs['project'],
+				'user': attrs['user'].id}
+			)
+			return super().validate(attrs)
 
 		def create(self, validated_data):
-			try:
-				with transaction.atomic():
-					return add_member(validated_data)
-			except:
-				raise NotFound()
+			return transaction_handler(add_member, validated_data)
 
 
 		class Meta:
 			model = Member 
 			fields = '__all__'
+
+	class ChangeSerializer(serializers.ModelSerializer):
+
+		def update(self, instance, validated_data):
+			transaction_handler(check_member_change_rool,
+				{'instance':instance, 'user':self.context['request'].user.id})
+			return super().update(instance, validated_data)
+
+		class Meta:
+			model = Member 
+			fields = ['role']
