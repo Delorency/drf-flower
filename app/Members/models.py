@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 
 
 class Member(models.Model):
-	COLUMNS = [
+	ROLES = [
 		("Backend", "Backend"),
 		("Frontend", "Frontend"),
 		("Design", "Design"),
@@ -14,7 +14,7 @@ class Member(models.Model):
 	]
 	role = models.CharField(
 		max_length=20,
-		choices=COLUMNS,
+		choices=ROLES,
 	)
 
 	user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, 

@@ -15,6 +15,9 @@ class ScrumProject(ObjMixin):
 
 	team = models.ManyToManyField(Member, related_name='member_scrumprojects',
 		blank=True, verbose_name='Team')
+	backlogs = models.ManyToManyField(Backlog,
+		related_name='backlog_scrumproject', blank=True,
+		verbose_name='Backlogs')
 
 	is_private = models.BooleanField(default=False, verbose_name='Is private')
 
@@ -25,4 +28,4 @@ class ScrumProject(ObjMixin):
 	class Meta:
 		verbose_name_plural = 'ScrumProjects'
 		verbose_name = 'ScrumProject'
-		ordering = ('-created_at',)
+		ordering = ('-created_at',)  
