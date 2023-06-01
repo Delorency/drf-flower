@@ -12,7 +12,7 @@ class CreatorFieldHelperPermission(BasePermission):
 class ProjectUpdatePermission(BasePermission):
 
     def has_object_permission(self, request, view, obj):
-        return obj.team.filter(user=request.user, role='Project owner')
+        return obj.team.filter(user=request.user, role='Project owner').exists()
 
 
 

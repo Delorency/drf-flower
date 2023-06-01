@@ -47,8 +47,9 @@ INSTALLED_APPS = [
 
     'utils',
     'Users',
+    'Proposals',
     'Members',
-    'ScrumProjects'
+    'ScrumProjects',
 ]
 
 MIDDLEWARE = [
