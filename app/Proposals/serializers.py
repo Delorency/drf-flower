@@ -52,7 +52,7 @@ class ProposalSerializer(serializers.ModelSerializer):
 	class AcceptDeclainSerializer(serializers.ModelSerializer):
 
 		def update(self, instance, validated_data):
-			if instance.scrum_project is not None:
+			if not instance.scrum_project:
 				project = instance.scrum_project
 
 			return transaction_handler(perfrom_add_member,{
