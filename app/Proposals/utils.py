@@ -2,12 +2,6 @@ from Members.utils import add_member
 
 
 
-def check_send_proposal_rool(data):
-	if data.get('scrum'):
-		data.get('instance').team.filter(
-			user=data.get('user')).get(role='Project owner')
-
-
 def check_user_in_project(data):
 	if data.get('project').team.filter(user=data['user']).exists():
 		raise ValueError

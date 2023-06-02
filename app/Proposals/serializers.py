@@ -1,12 +1,13 @@
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
+from utils import check_project_owner
 from utils.decorators import transaction_handler
 from ScrumProjects.serializers import ScrumProjectSerializer
 from Users.serializers import UserSerializer
 
 from .models import *
-from .utils import check_send_proposal_rool, check_user_in_project, \
+from .utils import check_user_in_project, \
 check_received_proposal, perfrom_add_member
 
 
@@ -23,7 +24,7 @@ class ProposalSerializer(serializers.ModelSerializer):
 
 		def validate(self, attrs):
 			if 'scrum_project' in attrs:
-				transaction_handler(check_send_proposal_rool,
+				transaction_handler(check_project_owner,
 					{'instance': attrs['scrum_project'],
 					'scrum': True,
 					'user': self.context['request'].user}
@@ -64,4 +65,4 @@ class ProposalSerializer(serializers.ModelSerializer):
 
 		class Meta:
 			model = Proposal
-			fields = []
+			fields = tuple()

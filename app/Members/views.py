@@ -13,8 +13,9 @@ class MemberMyListAPIView(generics.ListAPIView):
 	serializer_class = MemberSerializer
 	queryset = Member.objects.all()
 
-	def get(self, request, *args, **kwargs):
+	def get(self, request):
 		self.queryset = self.queryset.filter(user=request.user)
+		return super().get(request)
 
 
 class MemberUpdateDestroyAPIView(
