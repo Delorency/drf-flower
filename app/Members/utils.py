@@ -4,6 +4,11 @@ from .models import Member
 
 
 
+def check_user_rool(data):
+	data.get('user').user_members.filter(
+		role='Project owner').get(scrum_project=data.get('project'))
+
+
 def add_member(data):
 	project = data.pop('project')
 	instance = data.pop('instance')

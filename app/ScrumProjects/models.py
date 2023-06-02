@@ -3,7 +3,6 @@ from django.contrib.auth import get_user_model
 
 from utils.mixins import ObjMixin
 
-from Members.models import Member
 from Backlogs.models import Backlog
 
 
@@ -14,8 +13,6 @@ class ScrumProject(ObjMixin):
 	creator = models.ForeignKey(get_user_model(), on_delete=models.CASCADE,
 		related_name='user_scrumproject', verbose_name='Creator')
 
-	team = models.ManyToManyField(Member, related_name='member_scrumprojects',
-		blank=True, verbose_name='Team')
 	backlogs = models.ManyToManyField(Backlog,
 		related_name='backlog_scrumprojects', blank=True,
 		verbose_name='Backlogs')

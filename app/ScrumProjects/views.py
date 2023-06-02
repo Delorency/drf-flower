@@ -19,17 +19,6 @@ class ScrumProjectListCreateAPIView(generics.ListCreateAPIView):
 	def post(self, *args, **kwargs):
 		self.serializer_class = self.serializer_class.CreateSerializer
 		return super().post(*args, **kwargs)
-
-
-
-class ScrumProjectMyListAPIView(generics.ListAPIView):
-	permission_classes = (IsAuthenticated,)
-	serializer_class = ScrumProjectSerializer
-	queryset = ScrumProject.objects.all()
-
-	def get(self, request, *args, **kwargs):
-		self.queryset = self.queryset.filter(team__user=request.user)
-		return super().get(request, *args, **kwargs)
  
 
 

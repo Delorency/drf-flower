@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 
+from ScrumProjects.models import ScrumProject
+
 
 
 class Member(models.Model):
@@ -17,8 +19,12 @@ class Member(models.Model):
 		choices=ROLES,
 	)
 
+	scrum_project = models.ForeignKey(ScrumProject, on_delete=models.CASCADE,
+		null=True, blank=True, related_name='scrumproject_members',
+		verbose_name='Scrum project')
+
 	user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, 
-		related_name='user_member', verbose_name='User')
+		related_name='user_members', verbose_name='User')
 
 	created_at = models.DateTimeField(auto_now_add=True,
 		verbose_name='Created at')
