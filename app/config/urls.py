@@ -24,5 +24,6 @@ urlpatterns = [
     
     path('scrum-projects/', include('ScrumProjects.urls')),
     path('members/', include('Members.urls')),
-    path('proposals/', include('Proposals.urls'))
+    path('proposals/', include('Proposals.urls')),
+    path('backlogs/', include('Backlogs.urls'))
 ]

@@ -10,7 +10,7 @@ class Backlog(ObjMixin):
 		("Medium", "Medium"),
 		("Hard", "Hard")
 	]
-	difficult = models.CharField(max_length=20, choice=DIFFICULT)
+	difficult = models.CharField(max_length=20, choices=DIFFICULT)
 
 	start_at = models.DateField(verbose_name='Start at')
 	end_at = models.DateField(verbose_name='End at')

@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from utils.decorators import transaction_handler
-from ScrumProject.utils import check_project_owner
+from ScrumProjects.utils import get_project_owner
 
 from .models import Backlog
 from .utils import add_backlog
@@ -18,7 +18,7 @@ class BacklogSerializer(serializers.ModelSerializer):
 		project = serializers.IntegerField(write_only=True)
 
 		def validate(self, attrs):
-			attrs['project'] = transaction_handler(check_project_owner,
+			attrs['project'] = transaction_handler(get_project_owner,
 				{'project': attrs['project'],
 				 'user': self.context['request'].user
 				}
@@ -35,5 +35,5 @@ class BacklogSerializer(serializers.ModelSerializer):
 	class ChangeSerializer(serializers.ModelSerializer):
 
 		class Meta:
-			model = Member 
+			model = Backlog 
 			fields = '__all__'
