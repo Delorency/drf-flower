@@ -1,3 +1,3 @@
 # drf-ubudesk
 
-***API for https://github.com/Delorency/nextjs-ubudesk
+API for https://github.com/Delorency/nextjs-ubudesk
