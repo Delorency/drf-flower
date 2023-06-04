@@ -4,7 +4,6 @@ from djoser.serializers import UserSerializer as dj_UserSerializer
 
 from Users.serializers import UserSerializer
 from Members.serializers import MemberSerializer
-from Backlogs.serializers import BacklogSerializer
 from utils.decorators import transaction_handler
 
 from .utils import create_new_project
@@ -16,7 +15,6 @@ from .models import *
 class ScrumProjectSerializer(serializers.ModelSerializer):
 	creator = UserSerializer()
 	team = MemberSerializer(many=True)
-	backlogs = BacklogSerializer(many=True)
 
 	class Meta:
 		model = ScrumProject

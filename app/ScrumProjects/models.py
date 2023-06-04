@@ -4,7 +4,6 @@ from django.contrib.auth import get_user_model
 from utils.mixins import ObjMixin
 
 from Members.models import Member
-from Backlogs.models import Backlog
 
 
 
@@ -16,9 +15,6 @@ class ScrumProject(ObjMixin):
 
 	team = models.ManyToManyField(Member, related_name='member_scrumprojects',
 		blank=True, verbose_name='Team')
-	backlogs = models.ManyToManyField(Backlog,
-		related_name='backlog_scrumprojects', blank=True,
-		verbose_name='Backlogs')
 
 	is_private = models.BooleanField(default=False, verbose_name='Is private')
 
