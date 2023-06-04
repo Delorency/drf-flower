@@ -1,9 +1,6 @@
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 
-from utils.decorators import transaction_handler
-
-from .utils import check_user_in_team
 from .models import Backlog
 from .serializers import BacklogSerializer
 from .permissions import BacklogChangePermission
@@ -16,13 +13,9 @@ class BacklogListAPIView(generics.ListAPIView):
 	queryset = Backlog.objects.all()
 
 	def get(self, request, **kwargs):
-		transaction_handler(check_user_in_team,
-			{
-			'scrum_project': kwargs.get('id'),
-			'user': request.user
-			})
 		self.queryset = self.queryset.filter(
-			scrum_project__id=kwargs.get('id'))
+			scrum_project=kwargs.get('id'),
+			scrum_project__team__user=request.user)
 
 		return super().get(request, **kwargs) 
 

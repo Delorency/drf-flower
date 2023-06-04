@@ -46,4 +46,4 @@ class SprintSerializer(serializers.ModelSerializer):
 
 		class Meta:
 			model = Sprint 
-			fields = ('backlogs',)
+			fields = ('backlogs', 'start_at', 'end_at')
