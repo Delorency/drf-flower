@@ -2,6 +2,7 @@ from django.db import models
 
 from utils.mixins import ObjMixin
 from ScrumProjects.models import ScrumProject
+from Tasks.models import Task
 
 
 
@@ -15,6 +16,10 @@ class Backlog(ObjMixin):
 
 	scrum_project = models.ForeignKey(ScrumProject, on_delete=models.CASCADE,
 		related_name='scrumproject_backlogs', verbose_name='Scrum project')
+
+	tasks = models.ManyToManyField(Task, blank=True,
+		related_name='task_backlogs', verbose_name='Tasks')
+
 
 	def __str__(self):
 		return f'id: {self.id} | difficult: {self.difficult}'

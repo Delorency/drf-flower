@@ -26,5 +26,6 @@ urlpatterns = [
     path('members/', include('Members.urls')),
     path('proposals/', include('Proposals.urls')),
     path('backlogs/', include('Backlogs.urls')),
-    path('sprints/', include('Sprints.urls'))
+    path('sprints/', include('Sprints.urls')),
+    path('tasks/', include('Tasks.urls')),
 ]

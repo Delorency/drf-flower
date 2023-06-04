@@ -1,10 +1,9 @@
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 
-from utils.permissions import CreatorFieldHelperPermission, \
-ProjectUpdatePermission
 from utils.decorators import transaction_handler
 
+from .permissions import *
 from .utils import delete_project
 from .models import *
 from .serializers import *
@@ -35,7 +34,7 @@ class ScrumProjectMyListAPIView(generics.ListAPIView):
 
 class ScrumProjectRetrieveUpdateDestroyAPIView(
 	generics.RetrieveUpdateDestroyAPIView):
-	permission_classes = (IsAuthenticated, ProjectUpdatePermission)
+	permission_classes = (IsAuthenticated, ProjectChangePermission)
 	serializer_class = ScrumProjectSerializer.ChangeSerializer
 	queryset = ScrumProject.objects.all()
 	lookup_field = 'id'

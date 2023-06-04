@@ -1,9 +1,10 @@
 from Members.utils import add_member
+from utils import check_user_in_project as u_check_user_in_project
 
 
 
 def check_user_in_project(data):
-	if data.get('project').team.filter(user=data['user']).exists():
+	if u_check_user_in_project(data):
 		raise ValueError
 	return None
 

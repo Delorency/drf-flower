@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'ScrumProjects',
     'Backlogs',
     'Sprints',
+    'Tasks'
 ]
 
 MIDDLEWARE = [
