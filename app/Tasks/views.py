@@ -20,7 +20,7 @@ class TaskMyListAPIView(generics.ListAPIView):
 	queryset = Task.objects.all()
 
 	def get(self, request, *args, **kwargs):
-		self.queryset = self.queryset.filter(worker__user=request.user)
+		self.queryset = self.queryset.filter(worker__user=request.user, close=False)
 		return self.get(request, *args, **kwargs)
 
 
