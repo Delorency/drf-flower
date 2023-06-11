@@ -20,8 +20,8 @@ class TaskMyListAPIView(generics.ListAPIView):
 	queryset = Task.objects.all()
 
 	def get(self, request, *args, **kwargs):
-		self.queryset = self.queryset.filter(worker__user=request.user, close=False)
-		return super().get(request, *args, **kwargs)
+		self.queryset = self.queryset.filter(workers__user=request.user, close=False)
+		return super().get(request, *args, **kwargs) 
 
 
 
@@ -41,4 +41,27 @@ class TaskChangeColumnUpdateAPIView(generics.UpdateAPIView):
 	permission_classes = (IsAuthenticated, TaskChangeColumnPermission)
 	serializer_class = TaskSerializer.TaskChangeColumnSerializer
 	queryset = Task.objects.all()
+	lookup_field = 'id'
+
+
+
+class TaskItemCreateAPIView(generics.CreateAPIView):
+	permission_classes = (IsAuthenticated,)
+	serializer_class = TaskItemSerializer.CreateSerializer
+
+
+
+class TaskItemUpdateDestroyAPIView(generics.UpdateAPIView,
+	generics.DestroyAPIView):
+	permission_classes = (IsAuthenticated, TaskItemChangePermission)
+	serializer_class = TaskItemSerializer.UpdateSerializer
+	queryset = TaskItem.objects.all()
+	lookup_field = 'id'
+
+
+
+class TaskItemChangeCloseUpdateAPIView(generics.UpdateAPIView):
+	permission_classes = (IsAuthenticated, TaskItemChangeClosePermission)
+	serializer_class = TaskItemSerializer.CloseSerializer
+	queryset = TaskItem.objects.all()
 	lookup_field = 'id'

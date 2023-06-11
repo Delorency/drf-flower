@@ -4,6 +4,8 @@ from Backlogs.models import Backlog
 
 from .models import *
 
+
+
 def check_project_owner_backlog(data):
 	backlog = Backlog.objects.get(id=data.get('backlog'))
 
@@ -29,3 +31,33 @@ def add_task(data):
 	backlog.save()
 
 	return task
+
+
+def checkGet_task(data):
+	task = Task.objects.get(id=data.get('task'))
+	project = task.task_backlogs.first().scrum_project
+	if project.team.filter(user=data.get('user'),
+		role='Project owner'):
+		return task
+
+
+def add_task_item(data):
+	task = data.pop('task')
+
+	task_item = TaskItem.objects.create(**data)
+	task.task_items.add(task_item)
+	task.save()
+
+	return task_item
+
+
+def check_taskitems_date(data):
+	task = data.get('instance').taskitem_tasks.first()
+
+	if task.end_at:
+		if data.get('end_at') > task.end_at: 
+			raise ValueError
+
+
+def check_member_in_workers(data):
+	data.get('task').workers.get(id=data.get('member').id)

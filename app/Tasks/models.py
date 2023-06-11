@@ -5,6 +5,23 @@ from Members.models import Member
 
 
 
+class TaskItem(ObjMixin):
+	end_at = models.DateField(null=True, blank=True, verbose_name='End at')
+	worker = models.ForeignKey(Member, on_delete=models.SET_NULL,
+		null=True, blank=True, related_name='member_taskitems', verbose_name='Worker')
+	close = models.BooleanField(default=False)
+
+
+	def __str__(self):
+		return f'id: {self.id} | end_at: {self.end_at}'
+
+	class Meta:
+		verbose_name_plural = 'TaskItems'
+		verbose_name = 'TaskItem'
+		ordering = ('-created_at',)
+
+
+		
 class Task(ObjMixin):
 	COLUMN = (
 		('To Do', 'To Do'),
@@ -22,8 +39,11 @@ class Task(ObjMixin):
 	
 	end_at = models.DateField(null=True, blank=True, verbose_name='End at')
 
-	worker = models.ForeignKey(Member, on_delete=models.SET_NULL, 
-		null=True, blank=True, verbose_name='Worker')
+	workers = models.ManyToManyField(Member,related_name='member_tasks',
+		blank=True, verbose_name='Worker')
+
+	task_items = models.ManyToManyField(TaskItem, blank=True,
+		related_name='taskitem_tasks', verbose_name='Task items')
 
 	close = models.BooleanField(default=False, verbose_name='Close')
 

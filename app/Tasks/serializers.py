@@ -4,13 +4,70 @@ from utils.decorators import transaction_handler
 from Members.serializers import MemberSerializer
 
 from .models import *
-from .utils import check_project_owner_backlog, check_user_in_project,\
-add_task, check_member_in_project
+from .utils import *
+
+
+
+class TaskItemSerializer(serializers.ModelSerializer):
+
+	class Meta:
+		model = TaskItem
+		fields = '__all__'
+
+	class CreateSerializer(serializers.ModelSerializer):
+		task = serializers.IntegerField(write_only=True)
+
+		def validate(self, attrs):
+			attrs['task'] = transaction_handler(checkGet_task,
+				{'task':attrs['task'],
+				 'user':self.context['request'].user
+				})
+			return super().validate(attrs)
+
+		def create(self, validated_data):
+			return transaction_handler(add_task_item,
+				{'task':validated_data['task'],
+				 **validated_data
+				})
+
+		class Meta:
+			model = TaskItem
+			fields = ['id', 'name', 'task']
+
+
+	class UpdateSerializer(serializers.ModelSerializer):
+
+		def update(self, instance, validated_data):
+			if 'worker' in validated_data:
+				transaction_handler(check_member_in_workers,
+					{
+					'task' :instance.taskitem_tasks.first(),
+					'member': validated_data['worker']
+					})
+			if 'end_at' in validated_data:
+				transaction_handler(check_taskitems_date,
+					{
+					'instance' :instance,
+					'end_at': validated_data['end_at']
+					})
+			return super().update(instance, validated_data)
+
+		class Meta:
+			model = TaskItem
+			fields = '__all__'
+
+
+	class CloseSerializer(serializers.ModelSerializer):
+
+		class Meta:
+			model = TaskItem
+			fields = ['close']
 
 
 
 class TaskSerializer(serializers.ModelSerializer):
-	worker = MemberSerializer()
+	workers = MemberSerializer(many=True)
+	task_items = TaskItemSerializer(many=True)
 
 	class Meta:
 		model = Task 
@@ -61,7 +118,7 @@ class TaskSerializer(serializers.ModelSerializer):
 		class Meta:
 			model = Task 
 			fields = ['id', 'description', 'color', 'column', 'end_at',
-			'worker']
+			'workers']
 
 
 	class TaskChangeColumnSerializer(serializers.ModelSerializer):

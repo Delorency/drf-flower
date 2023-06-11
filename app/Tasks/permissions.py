@@ -11,6 +11,16 @@ class TaskChangePermission(BasePermission):
 			user=request.user, role='Project owner').exists()
 
 
+class TaskItemChangePermission(BasePermission):
+	def has_object_permission(self, request, view, obj):
+		return obj.taskitem_tasks.first().task_backlogs.first().scrum_project.team.filter(
+			user=request.user, role='Project owner').exists()
+
+
+class TaskItemChangeClosePermission(BasePermission):
+	def has_object_permission(self, request, view, obj):
+		return obj.worker.user == request.user
+
 
 class TaskChangeColumnPermission(BasePermission):
 	def has_object_permission(self, request, view, obj):
