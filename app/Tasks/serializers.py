@@ -83,8 +83,8 @@ class TaskSerializer(serializers.ModelSerializer):
 				'backlog': attrs['backlog'],
 				'user': self.context['request'].user
 				})
-			if 'worker' in attrs:
-				transaction_handler(check_member_in_project,
+			if 'workers' in attrs:
+				transaction_handler(check_members_in_project,
 					{
 					'project' :attrs['backlog'].scrum_project,
 					'member': attrs['worker']
@@ -106,7 +106,7 @@ class TaskSerializer(serializers.ModelSerializer):
 				if validated_data['column'] == Task.COLUMN[0][0] \
 				or validated_data['column'] == Task.COLUMN[1][0]:
 					instance.close = False
-			if 'worker' in validated_data:
+			if 'workers' in validated_data:
 				transaction_handler(check_member_in_project,
 					{
 					'project' :\
@@ -117,8 +117,32 @@ class TaskSerializer(serializers.ModelSerializer):
 
 		class Meta:
 			model = Task 
-			fields = ['id', 'description', 'color', 'column', 'end_at',
-			'workers']
+			fields = ['id', 'description', 'color', 'column', 'end_at']
+
+
+	class AddWorkerSerializer(serializers.ModelSerializer):
+		add = serializers.BooleanField(write_only=True)
+
+		def update(self, instance, validated_data):
+			transaction_handler(check_member_in_project,
+				{
+				'project' :\
+				instance.task_backlogs.first().scrum_project,
+				'member': validated_data['workers'][0]
+				})
+			if validated_data['add']:
+				return transaction_handler(add_worker,
+					{'instance':instance,
+					 'member':validated_data['workers'][0]
+					})
+			else:
+				return transaction_handler(remove_worker,
+					{'instance':instance,
+					 'member':validated_data['workers'][0]
+					})
+		class Meta:
+			model = Task 
+			fields = ['workers', 'add']
 
 
 	class TaskChangeColumnSerializer(serializers.ModelSerializer):

@@ -37,6 +37,14 @@ class TaskRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
 
 
 
+class TaskAddWorkerUpdateAPIView(generics.UpdateAPIView):
+	permission_classes = (IsAuthenticated, TaskChangePermission)
+	serializer_class = TaskSerializer.AddWorkerSerializer
+	queryset = Task.objects.all()
+	lookup_field = 'id'
+
+
+
 class TaskChangeColumnUpdateAPIView(generics.UpdateAPIView):
 	permission_classes = (IsAuthenticated, TaskChangeColumnPermission)
 	serializer_class = TaskSerializer.TaskChangeColumnSerializer

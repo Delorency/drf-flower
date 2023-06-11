@@ -61,3 +61,20 @@ def check_taskitems_date(data):
 
 def check_member_in_workers(data):
 	data.get('task').workers.get(id=data.get('member').id)
+
+
+def add_worker(data):
+	instance = data.get('instance')
+	instance.workers.add(data.get('member'))
+	instance.save()
+	return instance
+
+
+def remove_worker(data):
+	instance = data.get('instance')
+	instance.workers.remove(data.get('member'))
+	for item in instance.task_items.all():
+		item.worker = None
+		item.save()
+	instance.save()
+	return instance
