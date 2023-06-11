@@ -45,6 +45,10 @@ class TaskSerializer(serializers.ModelSerializer):
 	class UpdateSerializer(serializers.ModelSerializer):
 
 		def update(self, instance, validated_data):
+			if 'column' in validated_data:
+				if validated_data['column'] == Task.COLUMN[0][0] \
+				or validated_data['column'] == Task.COLUMN[1][0]:
+					instance.close = False
 			if 'worker' in validated_data:
 				transaction_handler(check_member_in_project,
 					{
@@ -66,11 +70,12 @@ class TaskSerializer(serializers.ModelSerializer):
 			if 'column' in validated_data:
 
 				if (instance.column == Task.COLUMN[0][0] \
-				and validated_data['column'] == Task.COLUMN[1][0]) \
-				or \
-				(instance.column == Task.COLUMN[1][0] \
-				and validated_data['column'] == Task.COLUMN[2][0]):
+				and validated_data['column'] == Task.COLUMN[1][0]):
 					pass
+
+				elif (instance.column == Task.COLUMN[1][0] \
+				and validated_data['column'] == Task.COLUMN[2][0]):
+					instance.close = True
 				else:
 					validated_data.pop('column')
 

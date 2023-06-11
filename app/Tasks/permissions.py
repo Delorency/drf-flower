@@ -14,4 +14,4 @@ class TaskChangePermission(BasePermission):
 
 class TaskChangeColumnPermission(BasePermission):
 	def has_object_permission(self, request, view, obj):
-		return obj.worker.user == request.user
+		return obj.worker.user == request.user and obj.close == False

@@ -25,6 +25,8 @@ class Task(ObjMixin):
 	worker = models.ForeignKey(Member, on_delete=models.SET_NULL, 
 		null=True, blank=True, verbose_name='Worker')
 
+	close = models.BooleanField(default=False, verbose_name='Close')
+
 
 	def __str__(self):
 		return f'id: {self.id} | end_at: {self.end_at}'
