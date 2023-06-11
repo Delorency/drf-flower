@@ -8,9 +8,20 @@ from .serializers import *
 
 
 
-class TaskCreateAPIView(generics.CreateAPIView):
+class TaskCreateAPIView(generics.ListCreateAPIView):
 	permission_classes = (IsAuthenticated,)
 	serializer_class = TaskSerializer.CreateSerializer
+
+
+
+class TaskMyListAPIView(generics.ListAPIView):
+	permission_classes = (IsAuthenticated,)
+	serializer_class = TaskSerializer
+	queryset = Task.objects.all()
+
+	def get(self, request, *args, **kwargs):
+		self.queryset = self.queryset.filter(worker__user=request.user)
+		return self.get(request, *args, **kwargs)
 
 
 
