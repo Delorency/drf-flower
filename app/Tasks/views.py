@@ -21,7 +21,7 @@ class TaskMyListAPIView(generics.ListAPIView):
 
 	def get(self, request, *args, **kwargs):
 		self.queryset = self.queryset.filter(worker__user=request.user, close=False)
-		return self.get(request, *args, **kwargs)
+		return super().get(request, *args, **kwargs)
 
 
 
