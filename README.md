@@ -1,3 +1,3 @@
-# drf-ubudesk
+# drf-flower
 
-API for https://github.com/Delorency/nextjs-ubudesk (not finish)
+API for https://github.com/Delorency/reactjs-flower (not finish)
