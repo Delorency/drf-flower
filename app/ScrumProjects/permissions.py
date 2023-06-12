@@ -5,7 +5,7 @@ from rest_framework.permissions import BasePermission
 class CreatorFieldHelperPermission(BasePermission):
     def has_permission(self, request, view):
         request.POST._mutable = True
-        request.POST['creator'] = request.user.id
+        request.data['creator'] = request.user.id
         return True
 
 

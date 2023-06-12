@@ -13,7 +13,11 @@ from .serializers import *
 class ScrumProjectListCreateAPIView(generics.ListCreateAPIView):
 	permission_classes = (IsAuthenticated, CreatorFieldHelperPermission)
 	serializer_class = ScrumProjectSerializer
-	queryset = ScrumProject.objects.filter(is_private=False)
+	queryset = ScrumProject.objects.all()
+
+	def get(self, request, *args, **kwargs):
+		self.queryset = self.queryset.filter(is_private=False)
+		return super().get(request, *args, **kwargs)
 
 	def post(self, *args, **kwargs):
 		self.serializer_class = self.serializer_class.CreateSerializer
@@ -28,6 +32,17 @@ class ScrumProjectMyListAPIView(generics.ListAPIView):
 
 	def get(self, request, *args, **kwargs):
 		self.queryset = self.queryset.filter(team__user=request.user)
+		return super().get(request, *args, **kwargs)
+
+
+
+class ScrumProjectOwnListAPIView(generics.ListAPIView):
+	permission_classes = (IsAuthenticated,)
+	serializer_class = ScrumProjectSerializer
+	queryset = ScrumProject.objects.all()
+
+	def get(self, request, *args, **kwargs):
+		self.queryset = self.queryset.filter(team__user=request.user, role='Project owner')
 		return super().get(request, *args, **kwargs)
  
 
