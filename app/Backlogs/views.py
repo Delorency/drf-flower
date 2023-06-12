@@ -13,7 +13,7 @@ class BacklogListAPIView(generics.ListAPIView):
 	queryset = Backlog.objects.all()
 
 	def get(self, request, **kwargs):
-		self.queryset = self.queryset.filter(
+		self.queryset = self.queryset.filter(in_sprint=False,
 			scrum_project=kwargs.get('id'),
 			scrum_project__team__user=request.user)
 
@@ -27,8 +27,7 @@ class BacklogCreateAPIView(generics.CreateAPIView):
 
 
 
-class BacklogUpdateDestroyAPIView(generics.UpdateAPIView,
-	generics.DestroyAPIView):
+class BacklogRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
 	permission_classes = (IsAuthenticated, BacklogChangePermission)
 	serializer_class = BacklogSerializer.ChangeSerializer
 	queryset = Backlog.objects.all()
