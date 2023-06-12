@@ -6,7 +6,7 @@ from Backlogs.serializers import BacklogSerializer
 from ScrumProjects.serializers import ScrumProject
 
 from .models import *
-from .utils import get_valid_backlogs
+from .utils import *
 
 
 
@@ -37,11 +37,11 @@ class SprintSerializer(serializers.ModelSerializer):
 	class UpdateSerializer(serializers.ModelSerializer):
 
 		def update(self, instance, validated_data):
-			if 'backlogs' in validated_data:
-				validated_data['backlogs'] = \
-				transaction_handler(get_valid_backlogs, 
-					{'instance': instance,
-					'backlogs':validated_data.get('backlogs')})
+			instance = transaction_handler(save_valid_backlogs, 
+				{'instance': instance,
+				'backlogs':validated_data.get('backlogs')}
+			)
+			validated_data.pop('backlogs')
 			return super().update(instance, validated_data)
 
 		class Meta:

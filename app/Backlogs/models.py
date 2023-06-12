@@ -20,6 +20,8 @@ class Backlog(ObjMixin):
 	tasks = models.ManyToManyField(Task, blank=True,
 		related_name='task_backlogs', verbose_name='Tasks')
 
+	in_sprint = models.BooleanField(default=False, verbose_name='In sprint')
+
 
 	def __str__(self):
 		return f'id: {self.id} | difficult: {self.difficult}'

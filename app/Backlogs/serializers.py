@@ -26,7 +26,7 @@ class BacklogSerializer(serializers.ModelSerializer):
 
 		class Meta:
 			model = Backlog
-			fields = '__all__'
+			fields = ['id', 'name', 'difficult', 'scrum_project']
 
 	class ChangeSerializer(serializers.ModelSerializer):
 
