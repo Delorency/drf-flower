@@ -6,7 +6,7 @@ from .models import ScrumProject
 
 def create_new_project(validated_data):
 	member = Member.objects.create(
-		role=Member.COLUMNS[-1][-1],
+		role=Member.ROLES[-1][-1],
 		user=validated_data.get('creator')
 	)
 	project = ScrumProject.objects.create(**validated_data)

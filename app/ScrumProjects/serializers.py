@@ -23,8 +23,10 @@ class ScrumProjectSerializer(serializers.ModelSerializer):
 
 	class CreateSerializer(serializers.ModelSerializer):
 		team = MemberSerializer(read_only=True, many=True)
+		is_scrum = serializers.BooleanField(default=True)
 
 		def create(self, validated_data):
+			print(validated_data)
 			return transaction_handler(create_new_project, validated_data)
 
 		class Meta:
