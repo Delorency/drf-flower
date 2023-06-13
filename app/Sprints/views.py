@@ -7,6 +7,7 @@ from utils.decorators import transaction_handler
 
 from .models import *
 from .serializers import *
+from .utils import delete_sprint
 from .permissions import SprintChangePermission
 
 
@@ -39,3 +40,6 @@ class SprintRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
 	def get(self, request, *args, **kwargs):
 		self.serializer_class = SprintSerializer
 		return super().get(request, *args, **kwargs)
+
+	def perform_destroy(self, instance):
+		transaction_handler(delete_sprint, instance)

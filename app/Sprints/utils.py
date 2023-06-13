@@ -21,3 +21,11 @@ def remove_valid_backlogs(data):
 
 	instance.save()
 	return instance
+
+
+
+def delete_sprint(instance):
+	for i in instance.backlogs.all():
+		i.in_sprint = False
+		i.save()
+	instance.delete()
