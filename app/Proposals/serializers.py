@@ -5,6 +5,7 @@ from utils import check_project_owner
 from utils.decorators import transaction_handler
 from ScrumProjects.serializers import ScrumProjectSerializer
 from Users.serializers import UserSerializer
+from Users.utils import get_user_by_username_or_email
 
 from .models import *
 from .utils import check_user_in_project, \
@@ -21,28 +22,39 @@ class ProposalSerializer(serializers.ModelSerializer):
 		fields = '__all__'
 
 	class CreateSerializer(serializers.ModelSerializer):
+		username = serializers.CharField(required=False, write_only=True)
+		email = serializers.CharField(required=False, write_only=True)
+		user = UserSerializer(read_only=True)
 
 		def validate(self, attrs):
 			if 'scrum_project' in attrs:
-				transaction_handler(check_project_owner,
-					{'instance': attrs['scrum_project'],
-					'scrum': True,
-					'user': self.context['request'].user}
-				)
-				transaction_handler(check_user_in_project,
-					{'project':attrs['scrum_project'],
-					'user':attrs['user']
-					}
-				)
-				transaction_handler(check_received_proposal,
-					{'project':attrs['scrum_project'],
-					'user': attrs['user'],
-					'scrum': True})
-				return super().validate(attrs)
-			elif 'kanban_project' in attrs:
-				pass 
-			else:
-				raise ValidationError
+				project = attrs.get('scrum_project')
+			elif 'kanban' in attrs:
+				pass
+			else: raise ValidationError
+			attrs['user'] = transaction_handler(get_user_by_username_or_email,
+				{
+					'username': attrs.get('username'),
+					'email': attrs.get('email')
+				})
+			del attrs['username']
+			del attrs['email']
+
+			transaction_handler(check_project_owner,
+				{'instance': project,
+				'scrum': True,
+				'user': self.context['request'].user}
+			)
+			transaction_handler(check_user_in_project,
+				{'project':project,
+				'user':attrs['user']
+				}
+			)
+			transaction_handler(check_received_proposal,
+				{'project':project,
+				'user': attrs['user'],
+				'scrum': True})
+			return super().validate(attrs)
 
 
 		class Meta:
