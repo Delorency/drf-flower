@@ -22,4 +22,4 @@ class Sprint(models.Model):
 	class Meta:
 		verbose_name_plural = 'Sprints'
 		verbose_name = 'Sprint'
-		ordering = ('-end_at',)
+		ordering = ('end_at',)

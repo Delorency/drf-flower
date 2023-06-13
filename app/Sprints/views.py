@@ -30,8 +30,7 @@ class SprintCreateAPIView(generics.CreateAPIView):
 
 
 
-class SprintUpdateDestroyAPIView(generics.UpdateAPIView,
-	generics.DestroyAPIView):
+class SprintRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
 	permission_classes = (IsAuthenticated, SprintChangePermission)
 	serializer_class = SprintSerializer.UpdateSerializer
 	queryset = Sprint.objects.all()
