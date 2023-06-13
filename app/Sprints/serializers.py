@@ -35,16 +35,16 @@ class SprintSerializer(serializers.ModelSerializer):
 
 
 	class UpdateSerializer(serializers.ModelSerializer):
-		remove = serializers.BooleanField(default=False)
+		remove = serializers.BooleanField(write_only=True)
 
 		def update(self, instance, validated_data):
 			if 'backlogs' in validated_data:
-				if not remove:
+				if validated_data.get('remove') is False:
 					instance = transaction_handler(save_valid_backlogs, 
 						{'instance': instance,
 						'backlogs':validated_data.get('backlogs')}
 					)
-				else:
+				elif validated_data.get('remove') is True:
 					instance = transaction_handler(remove_valid_backlogs, 
 						{'instance': instance,
 						'backlogs':validated_data.get('backlogs')}
@@ -54,4 +54,4 @@ class SprintSerializer(serializers.ModelSerializer):
 
 		class Meta:
 			model = Sprint 
-			fields = ('backlogs', 'start_at', 'end_at')
+			fields = ('backlogs', 'start_at', 'end_at', 'remove')

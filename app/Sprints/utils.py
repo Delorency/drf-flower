@@ -14,7 +14,7 @@ def save_valid_backlogs(data):
 def remove_valid_backlogs(data):
 	instance = data.get('instance')
 	for item in data.get('backlogs'):
-		if item in instance.backlogs:
+		if item in instance.backlogs.all():
 			instance.backlogs.remove(item)
 			item.in_sprint = False
 			item.save()

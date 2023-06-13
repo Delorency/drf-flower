@@ -35,3 +35,7 @@ class SprintRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
 	serializer_class = SprintSerializer.UpdateSerializer
 	queryset = Sprint.objects.all()
 	lookup_field = 'id'
+
+	def get(self, request, *args, **kwargs):
+		self.serializer_class = SprintSerializer
+		return super().get(request, *args, **kwargs)
