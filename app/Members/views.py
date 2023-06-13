@@ -18,9 +18,13 @@ class MemberMyListAPIView(generics.ListAPIView):
 		return super().get(request)
 
 
-class MemberUpdateDestroyAPIView(
-	generics.UpdateAPIView, generics.DestroyAPIView):
+class MemberRetrieveUpdateDestroyAPIView(
+	generics.RetrieveUpdateDestroyAPIView):
 	permission_classes = (IsAuthenticated, MemberChangePermission)
 	serializer_class = MemberSerializer.ChangeSerializer
 	queryset = Member.objects.all()
 	lookup_field = 'id'
+
+	def get(self, request, *args, **kwargs):
+		self.serializer_class = MemberSerializer
+		return super().get(request, *args, **kwargs)
