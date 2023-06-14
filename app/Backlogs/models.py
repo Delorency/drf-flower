@@ -29,4 +29,4 @@ class Backlog(ObjMixin):
 	class Meta:
 		verbose_name_plural = 'Backlogs'
 		verbose_name = 'Backlog'
-		ordering = ('created_at',)
+		ordering = ('-created_at',)

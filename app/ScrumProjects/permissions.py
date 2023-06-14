@@ -13,4 +13,6 @@ class CreatorFieldHelperPermission(BasePermission):
 class ProjectChangePermission(BasePermission):
 
     def has_object_permission(self, request, view, obj):
+        if request.method == 'GET':
+            return obj.team.filter(user=request.user).exists()
         return obj.team.filter(user=request.user, role='Project owner').exists()
