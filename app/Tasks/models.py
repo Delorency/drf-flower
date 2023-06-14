@@ -32,7 +32,7 @@ class Task(ObjMixin):
 	)
 
 	description = models.CharField(max_length=1000, verbose_name='Description')
-	color = models.CharField(max_length=7, verbose_name='Color')
+	color = models.CharField(max_length=7, null=True, blank=True, verbose_name='Color')
 
 	column = models.CharField(max_length=30, choices=COLUMN, default='To Do',
 		verbose_name='Column')
@@ -40,7 +40,7 @@ class Task(ObjMixin):
 	end_at = models.DateField(null=True, blank=True, verbose_name='End at')
 
 	workers = models.ManyToManyField(Member,related_name='member_tasks',
-		blank=True, verbose_name='Worker')
+		blank=True, verbose_name='Workers')
 
 	task_items = models.ManyToManyField(TaskItem, blank=True,
 		related_name='taskitem_tasks', verbose_name='Task items')

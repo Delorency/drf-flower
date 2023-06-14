@@ -24,7 +24,7 @@ class Backlog(ObjMixin):
 
 
 	def __str__(self):
-		return f'id: {self.id} | difficult: {self.difficult}'
+		return f'id: {self.id} | name: {self.name} | difficult: {self.difficult}'
 
 	class Meta:
 		verbose_name_plural = 'Backlogs'

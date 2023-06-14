@@ -3,12 +3,15 @@ from rest_framework import serializers
 from utils.decorators import transaction_handler
 from ScrumProjects.serializers import ScrumProjectSerializer
 
+from Tasks.serializers import TaskSerializer
+
 from .models import Backlog
 from .utils import check_project_owner
 
 
 
 class BacklogSerializer(serializers.ModelSerializer):
+	tasks = TaskSerializer(many=True)
 
 	class Meta:
 		model = Backlog 
