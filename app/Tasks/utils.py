@@ -94,6 +94,6 @@ def convert_to_right_data(data):
 	task = data.get('instance')
 
 	for item in task.task_items.all():
-		if item.end_at > task.end_at:
+		if item.end_at and item.end_at > task.end_at:
 			item.end_at = task.end_at
 			item.save() 

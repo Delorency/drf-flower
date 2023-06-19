@@ -130,15 +130,17 @@ class TaskSerializer(serializers.ModelSerializer):
 					instance.task_backlogs.first().scrum_project,
 					'member': validated_data['worker']
 					})
-			if 'end_at' in attrs:
+			if 'end_at' in validated_data:
 				transaction_handler(valid_end_at_date, {
-					'instance':attrs['backlog'],
-					'end_at':attrs['end_at']
+					'instance':instance.task_backlogs.first(),
+					'end_at':validated_data['end_at']
 					},
 					MyError('end_at', 'Task end date must be in sprint time interval', 400))
-
+				instance.end_at = validated_data['end_at']
+				instance.save()
+				validated_data.pop('end_at')
 				transaction_handler(convert_to_right_data, {'instance':instance})
-				
+
 			return super().update(instance, validated_data)
 
 		class Meta:
