@@ -78,3 +78,22 @@ def remove_worker(data):
 		item.save()
 	instance.save()
 	return instance
+
+
+def valid_end_at_date(data):
+	backlog = data.get('instance')
+	sprint = backlog.backlog_sprints.first()
+	sprint_end_at = sprint.end_at
+	sprint_start_at = sprint.start_at
+
+	if not (sprint_start_at <= data.get('end_at') <= sprint_end_at):
+		raise ValueError
+
+
+def convert_to_right_data(data):
+	task = data.get('instance')
+
+	for item in task.task_items.all():
+		if item.end_at > task.end_at:
+			item.end_at = task.end_at
+			item.save() 

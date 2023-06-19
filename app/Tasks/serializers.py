@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from utils.decorators import transaction_handler
+from utils.exceptions import MyError
 from Members.serializers import MemberSerializer
 
 from .models import *
@@ -39,17 +40,22 @@ class TaskItemSerializer(serializers.ModelSerializer):
 
 		def update(self, instance, validated_data):
 			if 'worker' in validated_data:
+
 				transaction_handler(check_member_in_workers,
 					{
 					'task' :instance.taskitem_tasks.first(),
 					'member': validated_data['worker']
-					})
+					},
+					MyError('worker', 'Worker must be in task team', 400))
+
 			if 'end_at' in validated_data:
+
 				transaction_handler(check_taskitems_date,
 					{
 					'instance' :instance,
 					'end_at': validated_data['end_at']
 					})
+
 			return super().update(instance, validated_data)
 
 		class Meta:
@@ -84,11 +90,22 @@ class TaskSerializer(serializers.ModelSerializer):
 				'user': self.context['request'].user
 				})
 			if 'workers' in attrs:
+
 				transaction_handler(check_members_in_project,
 					{
 					'project' :attrs['backlog'].scrum_project,
 					'member': attrs['worker']
-					})
+					},
+					MyError('worker', 'Worker must be in project team', 400))
+
+			if 'end_at' in attrs:
+
+				transaction_handler(valid_end_at_date, {
+					'instance':attrs['backlog'],
+					'end_at':attrs['end_at']
+					},
+					MyError('end_at', 'Task end date must be in sprint time interval', 400))
+
 			return super().validate(attrs)
 
 		def create(self, validated_data):
@@ -113,6 +130,15 @@ class TaskSerializer(serializers.ModelSerializer):
 					instance.task_backlogs.first().scrum_project,
 					'member': validated_data['worker']
 					})
+			if 'end_at' in attrs:
+				transaction_handler(valid_end_at_date, {
+					'instance':attrs['backlog'],
+					'end_at':attrs['end_at']
+					},
+					MyError('end_at', 'Task end date must be in sprint time interval', 400))
+
+				transaction_handler(convert_to_right_data, {'instance':instance})
+				
 			return super().update(instance, validated_data)
 
 		class Meta:
