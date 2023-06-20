@@ -54,13 +54,25 @@ class TaskItemSerializer(serializers.ModelSerializer):
 					{
 					'instance' :instance,
 					'end_at': validated_data['end_at']
-					})
+					},
+					MyError('end_at', 'Task item end date must be lower then task end date', 400))
 
 			return super().update(instance, validated_data)
 
 		class Meta:
 			model = TaskItem
 			fields = '__all__'
+
+	class RemoveWorkerSerializer(serializers.ModelSerializer):
+
+		def update(self, instance, validated_data):
+			instance.worker = None
+			instance.save()
+			return instance
+
+		class Meta:
+			model = TaskItem
+			fields = ['worker']
 
 
 	class CloseSerializer(serializers.ModelSerializer):
