@@ -10,6 +10,7 @@ from .utils import *
 
 
 class TaskItemSerializer(serializers.ModelSerializer):
+	worker = MemberSerializer()
 
 	class Meta:
 		model = TaskItem
@@ -23,6 +24,13 @@ class TaskItemSerializer(serializers.ModelSerializer):
 				{'task':attrs['task'],
 				 'user':self.context['request'].user
 				})
+			if 'worker' in attrs:
+				transaction_handler(check_member_in_workers,
+					{
+					'task' : attrs['task'],
+					'member': attrs['worker']
+					},
+					MyError('worker', 'Worker must be in task team', 400))
 			return super().validate(attrs)
 
 		def create(self, validated_data):
@@ -33,7 +41,7 @@ class TaskItemSerializer(serializers.ModelSerializer):
 
 		class Meta:
 			model = TaskItem
-			fields = ['id', 'name', 'task']
+			fields = ['id', 'name', 'task', 'worker']
 
 
 	class UpdateSerializer(serializers.ModelSerializer):
@@ -52,7 +60,7 @@ class TaskItemSerializer(serializers.ModelSerializer):
 
 				transaction_handler(check_taskitems_date,
 					{
-					'instance' :instance,
+					'task' :instance.taskitem_tasks.first(),
 					'end_at': validated_data['end_at']
 					},
 					MyError('end_at', 'Task item end date must be lower then task end date', 400))

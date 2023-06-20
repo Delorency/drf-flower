@@ -52,7 +52,7 @@ def add_task_item(data):
 
 
 def check_taskitems_date(data):
-	task = data.get('instance').taskitem_tasks.first()
+	task = data.get('task')
 
 	if task.end_at:
 		if data.get('end_at') > task.end_at: 
