@@ -101,14 +101,6 @@ class TaskSerializer(serializers.ModelSerializer):
 				'backlog': attrs['backlog'],
 				'user': self.context['request'].user
 				})
-			if 'workers' in attrs:
-
-				transaction_handler(check_members_in_project,
-					{
-					'project' :attrs['backlog'].scrum_project,
-					'member': attrs['worker']
-					},
-					MyError('worker', 'Worker must be in project team', 400))
 
 			if 'end_at' in attrs:
 
@@ -125,7 +117,7 @@ class TaskSerializer(serializers.ModelSerializer):
 
 		class Meta:
 			model = Task 
-			fields = '__all__'
+			fields = ['id', 'name', 'description', 'color', 'column', 'end_at', 'backlog']
 
 
 	class UpdateSerializer(serializers.ModelSerializer):
@@ -135,13 +127,6 @@ class TaskSerializer(serializers.ModelSerializer):
 				if validated_data['column'] == Task.COLUMN[0][0] \
 				or validated_data['column'] == Task.COLUMN[1][0]:
 					instance.close = False
-			if 'workers' in validated_data:
-				transaction_handler(check_member_in_project,
-					{
-					'project' :\
-					instance.task_backlogs.first().scrum_project,
-					'member': validated_data['worker']
-					})
 			if 'end_at' in validated_data:
 				transaction_handler(valid_end_at_date, {
 					'instance':instance.task_backlogs.first(),

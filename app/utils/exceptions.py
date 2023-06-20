@@ -8,4 +8,5 @@ class MyError(APIException):
     def __init__(self, key:str, message:str, status_code:int):
         self.key = key
         self.message = message
+        self.status_code = status_code
         self.detail = {self.key:[self.message]}
